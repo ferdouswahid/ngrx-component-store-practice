@@ -4,13 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
-import {FerdousPageModule} from "./ferdous-page/ferdous-page.module";
+import {DressPageModule} from "./dress-page/dress-page.module";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { StoreModule } from '@ngrx/store';
 import {componentStateReducer} from "./ComponentStateReducer";
-import {ShaifulPageModule} from "./shaiful-page/shaiful-page.module";
-import {MotherPageModule} from "./mother-page/mother-page.module";
+import {BookPageModule} from "./book-page/book-page.module";
+import {ParentPageModule} from "./parent-page/parent-page.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -22,9 +22,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    FerdousPageModule,
-    ShaifulPageModule,
-    MotherPageModule,
+    DressPageModule,
+    BookPageModule,
+    ParentPageModule,
     //StoreModule.forRoot({}, {}),
     StoreModule.forRoot({ componentState: componentStateReducer}),
     StoreDevtoolsModule.instrument(

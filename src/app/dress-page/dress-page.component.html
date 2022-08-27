@@ -1,0 +1,23 @@
+
+<button (click)="add('Dress')">Add a Dress</button>
+<br>
+<br>
+
+
+
+<button (click)="resetDressState()">reset Dress State</button>
+<h2>All Dress list:</h2>
+<li *ngFor="let dress of (dressList$ | async)">
+  {{ dress.id }} {{ dress.name }}
+  <button  type="button" class="btn btn-primary" (click)="update(dress)">update</button>
+  <button type="button" (click)="remove(dress)">Remove</button>
+  <button type="button" (click)="favourite(dress)">Favourite</button>
+</li>
+
+<br>
+<br>
+
+<h2>Favourite Dress list:</h2>
+<li *ngFor="let fm of (favouriteDressList$ | async)">
+  {{ fm.id }} {{ fm.name }}
+</li>

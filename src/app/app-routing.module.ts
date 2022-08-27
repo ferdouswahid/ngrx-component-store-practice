@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {FerdousPageComponent} from "./ferdous-page/ferdous-page.component";
-import {ShaifulPageComponent} from "./shaiful-page/shaiful-page.component";
-import {MotherPageComponent} from "./mother-page/mother-page.component";
+import {DressPageComponent} from "./dress-page/dress-page.component";
+import {BookPageComponent} from "./book-page/book-page.component";
+import {ParentPageComponent} from "./parent-page/parent-page.component";
 
 const routes: Routes = [
-  {path: 'ferdous-page', component: FerdousPageComponent},
-  {path: 'shaiful-page', component: ShaifulPageComponent},
-  {path: 'mother-page', component: MotherPageComponent}
+  {path: 'dress-page', component: DressPageComponent},
+  {path: 'book-page', component: BookPageComponent},
+  {path: 'parent-page', component: ParentPageComponent}
 ];
 
 @NgModule({

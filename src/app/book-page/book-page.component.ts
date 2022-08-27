@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs";
-import {Book, BooksStore} from "../shaiful-page/books.store";
+import {Book, BooksStore} from "./books.store";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-shaiful-page',
-  templateUrl: './shaiful-page.component.html',
-  styleUrls: ['./shaiful-page.component.scss']
+  selector: 'app-book-page',
+  templateUrl: './book-page.component.html',
+  styleUrls: ['./book-page.component.scss']
 })
-export class ShaifulPageComponent implements OnInit {
+export class BookPageComponent implements OnInit {
 
-  books$ : Observable<Book[]> = this.booksStore.books$;
-  favouriteBooks$ : Observable<Book[]> = this.booksStore.userPreferredBooks$;
-
+  bookList$ : Observable<Book[]> = this.booksStore.bookList$;
+  favouriteBookList$ : Observable<Book[]> = this.booksStore.userPreferredBookList$;
   defaultId = 1;
 
   constructor(private route: ActivatedRoute,
@@ -35,8 +34,8 @@ export class ShaifulPageComponent implements OnInit {
     this.booksStore.removeBook({ ...book});
   }
 
-  resetBooks() {
-    this.booksStore.resetBooks();
+  resetBookState() {
+    this.booksStore.resetBookState();
     this.defaultId = 1;
   }
 

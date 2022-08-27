@@ -1,13 +1,11 @@
-<p>shaiful-page works!</p>
 
-<button (click)="add('Book')">Add a Book</button>
-<br>
-<button (click)="resetBooks()">reset Books</button>
+<button (click)="add('Book')">Add Book</button>
 <br>
 <br>
 
+<button (click)="resetBookState()">reset Dress state</button>
 <h2>All Book list:</h2>
-<li *ngFor="let book of (books$ | async)">
+<li *ngFor="let book of (bookList$ | async)">
   {{ book.id }} {{ book.name }}
   <button  type="button" (click)="update(book)">update</button>
   <button type="button" (click)="remove(book)">Remove</button>
@@ -18,7 +16,7 @@
 <br>
 
 <h2>Favourite Book list:</h2>
-<li *ngFor="let fm of (favouriteBooks$ | async)">
+<li *ngFor="let fm of (favouriteBookList$ | async)">
   {{ fm.id }} {{ fm.name }}
 </li>
 
