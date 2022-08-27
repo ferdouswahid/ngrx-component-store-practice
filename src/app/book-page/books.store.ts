@@ -2,22 +2,15 @@ import {Injectable} from "@angular/core";
 import {ComponentStore} from "@ngrx/component-store";
 import {Store} from "@ngrx/store";
 import {linkToGlobalState} from "../ComponentStateReducer";
+import {BookDto} from "./BookDto";
 
-
-export interface Book {
-  id: number;
-  name: string;
-  writer?: string;
-  description?: string;
-}
-
-export interface BooksState {
-  bookList: Book[];
-  userPreferredBookIdList: number[];
+export class BooksState {
+  bookDtoList: BookDto[]= [];
+  userPreferredBookIdList: number[]= [];
 }
 
 export const initialState: BooksState = {
-  bookList: [],
+  bookDtoList: [],
   userPreferredBookIdList: []
 };
 
@@ -29,34 +22,34 @@ export class BooksStore extends ComponentStore<BooksState> {
     linkToGlobalState(this.state$, 'BooksState', this.globalStore);
   }
 
-  readonly bookList$ = this.select(state => state.bookList);
+  readonly bookDtoList$ = this.select(state => state.bookDtoList);
 
-  readonly addBook = this.updater((state: BooksState, book: Book) => {
+  readonly addBook = this.updater((state: BooksState, book: BookDto) => {
       return {
         ...state,
-        bookList: [...state.bookList, book]
+        bookDtoList: [...state.bookDtoList, book]
       }
     }
   );
 
-  readonly updateBook = this.updater((state: BooksState, book: Book) => {
-      const newBookList: Book[] = Object.assign([], state.bookList);
+  readonly updateBook = this.updater((state: BooksState, book: BookDto) => {
+      const newBookList: BookDto[] = Object.assign([], state.bookDtoList);
       const index = newBookList.findIndex(val => val.id == book.id);
       newBookList[index] = book;
 
       return {
         ...state,
-        bookList: newBookList,
+        bookDtoList: newBookList,
       };
     }
   );
 
-  readonly removeBook = this.updater((state: BooksState, book: Book) => {
-      const newBookList: Book[] = Object.assign([], state.bookList);
+  readonly removeBook = this.updater((state: BooksState, book: BookDto) => {
+      const newBookList: BookDto[] = Object.assign([], state.bookDtoList);
       const removeBookList = newBookList.filter(val => val.id !== book.id);
       return {
         ...state,
-        bookList: removeBookList,
+        bookDtoList: removeBookList,
       };
     }
   );
@@ -73,13 +66,31 @@ export class BooksStore extends ComponentStore<BooksState> {
   readonly userPreferredBookIdList$ = this.select(state => state.userPreferredBookIdList);
 
   readonly userPreferredBookList$ = this.select(
-    this.bookList$,
+    this.bookDtoList$,
     this.userPreferredBookIdList$,
-    (books, ids) => books.filter(book => ids.includes(book.id)),
+    (books, ids) => books.filter(book => ids.includes(book.id??0)),
     {debounce: true}, // setting this selector to debounce
   );
 
-  readonly addFavouriteBook = this.updater((state: BooksState, book: Book) => {
+  checkBookAlreadyExistInFavList(userPreferredBookIdList: Array<number>, bookId:number): boolean{
+    return userPreferredBookIdList.includes(bookId);
+  }
+
+  getFavouriteIdList(userPreferredBookIdList: Array<number>, book:BookDto): Array<number>{
+    if(!this.checkBookAlreadyExistInFavList(userPreferredBookIdList, book.id??0) && book.id){
+      return [...userPreferredBookIdList, book.id]
+    }
+    return userPreferredBookIdList
+  }
+
+  readonly addFavouriteBook = this.updater((state: BooksState, book: BookDto) => ({
+      ...state, userPreferredBookIdList: this.getFavouriteIdList(state.userPreferredBookIdList, book)
+    })
+  );
+
+
+
+/*  readonly addFavouriteBook = this.updater((state: BooksState, book: BookDto) => {
     const newList: number[] = Object.assign([], state.userPreferredBookIdList);
     if(newList.includes(book.id)){
       return {
@@ -93,6 +104,6 @@ export class BooksStore extends ComponentStore<BooksState> {
     }
 
     }
-  );
+  );*/
 
 }

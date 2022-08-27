@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {Dress, DressStore} from "./dress.store";
+import { DressStore} from "./dress.store";
 import {Observable} from "rxjs";
+import {DressDto} from "./DressDto";
 
 @Component({
   selector: 'app-dress-page',
@@ -10,38 +11,38 @@ import {Observable} from "rxjs";
 })
 export class DressPageComponent implements OnInit {
 
-  dressList$ : Observable<Dress[]> = this.dresssStore.dressList$;
-  favouriteDressList$ : Observable<Dress[]> = this.dresssStore.userPreferredDressList$;
+  dressList$ : Observable<DressDto[]> = this.dressStore.dressDtoList$;
+  favouriteDressList$ : Observable<DressDto[]> = this.dressStore.userPreferredDressList$;
 
   defaultId = 1;
 
   constructor(private route: ActivatedRoute,
-              private readonly dresssStore: DressStore) {}
+              private readonly dressStore: DressStore) {}
 
   ngOnInit(): void {
   }
 
 
   add(dressName: string) {
-    this.dresssStore.addDress({ name: dressName + this.defaultId, id: this.defaultId });
+    this.dressStore.addDress({ name: dressName + this.defaultId, id: this.defaultId });
     this.defaultId = this.defaultId + 1;
   }
 
-  update(dress: Dress) {
-    this.dresssStore.updateDress({ ...dress, name: "Updated " + dress.name });
+  update(dress: DressDto) {
+    this.dressStore.updateDress({ ...dress, name: "Updated " + dress.name });
   }
 
-  remove(dress: Dress) {
-    this.dresssStore.removeDress({ ...dress});
+  remove(dress: DressDto) {
+    this.dressStore.removeDress({ ...dress});
   }
 
   resetDressState() {
-    this.dresssStore.resetDressState();
+    this.dressStore.resetDressState();
     this.defaultId = 1;
   }
 
 
-  favourite(dress: Dress) {
-    this.dresssStore.addFavouriteDress({ ...dress});
+  favourite(dress: DressDto) {
+    this.dressStore.addFavouriteDress({ ...dress});
   }
 }

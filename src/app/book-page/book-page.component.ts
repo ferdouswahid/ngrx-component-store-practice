@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs";
-import {Book, BooksStore} from "./books.store";
+import {BooksStore} from "./books.store";
 import {ActivatedRoute} from "@angular/router";
+import {BookDto} from "./BookDto";
 
 @Component({
   selector: 'app-book-page',
@@ -10,8 +11,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class BookPageComponent implements OnInit {
 
-  bookList$ : Observable<Book[]> = this.booksStore.bookList$;
-  favouriteBookList$ : Observable<Book[]> = this.booksStore.userPreferredBookList$;
+  bookList$ : Observable<BookDto[]> = this.booksStore.bookDtoList$;
+  favouriteBookList$ : Observable<BookDto[]> = this.booksStore.userPreferredBookList$;
   defaultId = 1;
 
   constructor(private route: ActivatedRoute,
@@ -26,11 +27,11 @@ export class BookPageComponent implements OnInit {
     this.defaultId = this.defaultId + 1;
   }
 
-  update(book: Book) {
+  update(book: BookDto) {
     this.booksStore.updateBook({ ...book, name: "Updated " + book.name });
   }
 
-  remove(book: Book) {
+  remove(book: BookDto) {
     this.booksStore.removeBook({ ...book});
   }
 
@@ -40,7 +41,7 @@ export class BookPageComponent implements OnInit {
   }
 
 
-  favourite(book: Book) {
+  favourite(book: BookDto) {
     this.booksStore.addFavouriteBook({ ...book});
 
   }

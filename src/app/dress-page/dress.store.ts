@@ -2,23 +2,22 @@ import {Injectable} from "@angular/core";
 import {ComponentStore} from "@ngrx/component-store";
 import {Store} from "@ngrx/store";
 import {linkToGlobalState} from "../ComponentStateReducer";
+import {DressDto} from "./DressDto";
+import {BooksState} from "../book-page/books.store";
 
 
-export interface Dress {
-  id: number;
-  name: string;
-  color?: string;
-  description?: string;
-}
+export class DresssState {
+  dressDtoList: DressDto[] = [];
+  userPreferredDressIdList: number[] = [];
 
-export interface DresssState {
-  dressList: Dress[];
-  userPreferredDressIdList: number[];
+  public constructor(o?: Partial<DresssState>) {
+    Object.assign(this, o);
+  }
 }
 
 export const initialState: DresssState = {
-  dressList: [],
-  userPreferredDressIdList: []
+  dressDtoList: [],
+  userPreferredDressIdList: [],
 };
 
 @Injectable()
@@ -29,34 +28,34 @@ export class DressStore extends ComponentStore<DresssState> {
     linkToGlobalState(this.state$, 'DressState', this.globalStore);
   }
 
-  readonly dressList$ = this.select(state => state.dressList);
+  readonly dressDtoList$ = this.select(state => state.dressDtoList);
 
-  readonly addDress = this.updater((state: DresssState, dress: Dress) => {
+  readonly addDress = this.updater((state: DresssState, dress: DressDto) => {
       return {
         ...state,
-        dressList: [...state.dressList, dress]
+        dressDtoList: [...state.dressDtoList, dress]
       }
     }
   );
 
-  readonly updateDress = this.updater((state: DresssState, dress: Dress) => {
-      const newDressList: Dress[] = Object.assign([], state.dressList);
+  readonly updateDress = this.updater((state: DresssState, dress: DressDto) => {
+      const newDressList: DressDto[] = Object.assign([], state.dressDtoList);
       const index = newDressList.findIndex(val => val.id == dress.id);
       newDressList[index] = dress;
 
       return {
         ...state,
-        dressList: newDressList,
+        dressDtoList: newDressList,
       };
     }
   );
 
-  readonly removeDress = this.updater((state: DresssState, dress: Dress) => {
-      const newDressList: Dress[] = Object.assign([], state.dressList);
+  readonly removeDress = this.updater((state: DresssState, dress: DressDto) => {
+      const newDressList: DressDto[] = Object.assign([], state.dressDtoList);
       const removeDressList = newDressList.filter(val => val.id !== dress.id);
       return {
         ...state,
-        dressList: removeDressList,
+        dressDtoList: removeDressList,
       };
     }
   );
@@ -73,26 +72,27 @@ export class DressStore extends ComponentStore<DresssState> {
   readonly userPreferredDressIdList$ = this.select(state => state.userPreferredDressIdList);
 
   readonly userPreferredDressList$ = this.select(
-    this.dressList$,
+    this.dressDtoList$,
     this.userPreferredDressIdList$,
-    (dresss, ids) => dresss.filter(dress => ids.includes(dress.id)),
+    (dresss, ids) => dresss.filter(dress => ids.includes(dress.id ?? 0)),
     {debounce: true}, // setting this selector to debounce
   );
 
-  readonly addFavouriteDress = this.updater((state: DresssState, dress: Dress) => {
-    const newList: number[] = Object.assign([], state.userPreferredDressIdList);
-    if(newList.includes(dress.id)){
-      return {
-        ...state
-      }
-    }else{
-      return {
-        ...state,
-        userPreferredDressIdList: [...state.userPreferredDressIdList, dress.id]
-      }
-    }
 
+  checkDressAlreadyExistInFavList(userPreferredDressIdList: Array<number>, dressId:number): boolean{
+    return userPreferredDressIdList.includes(dressId);
+  }
+
+  getFavouriteIdList(userPreferredDressIdList: Array<number>, dress:DressDto): Array<number>{
+    if(!this.checkDressAlreadyExistInFavList(userPreferredDressIdList, dress.id??0) && dress.id){
+      return [...userPreferredDressIdList, dress.id]
     }
+    return userPreferredDressIdList
+  }
+
+  readonly addFavouriteDress = this.updater((state: DresssState, dress: DressDto) => ({
+      ...state, userPreferredDressIdList: this.getFavouriteIdList(state.userPreferredDressIdList, dress)
+    })
   );
 
 }
