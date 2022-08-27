@@ -28,6 +28,7 @@
     "@ngrx/router-store": "^14.2.0",
     "@ngrx/store": "^14.2.0",
     "@ngrx/store-devtools": "^14.2.0",
+    "@rxweb/reactive-form-validators": "^2.1.6",
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.2.0",
     "lodash": "^4.17.21",

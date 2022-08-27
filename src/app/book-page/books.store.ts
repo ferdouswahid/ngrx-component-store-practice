@@ -7,6 +7,7 @@ import {linkToGlobalState} from "../ComponentStateReducer";
 export interface Book {
   id: number;
   name: string;
+  writer?: string;
   description?: string;
 }
 

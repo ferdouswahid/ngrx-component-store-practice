@@ -7,6 +7,7 @@ import {linkToGlobalState} from "../ComponentStateReducer";
 export interface Dress {
   id: number;
   name: string;
+  color?: string;
   description?: string;
 }
 

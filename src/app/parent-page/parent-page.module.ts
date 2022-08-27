@@ -5,6 +5,7 @@ import { ParentPageRoutingModule } from './parent-page-routing.module';
 import { ParentPageComponent } from './parent-page.component';
 import {DressPageModule} from "../dress-page/dress-page.module";
 import {BookPageModule} from "../book-page/book-page.module";
+import {StudentStore} from "./student.store";
 
 
 @NgModule({
@@ -16,6 +17,9 @@ import {BookPageModule} from "../book-page/book-page.module";
     ParentPageRoutingModule,
     DressPageModule,
     BookPageModule
+  ],
+  providers:[
+    StudentStore
   ]
 })
 export class ParentPageModule { }

@@ -2,6 +2,29 @@
 
 
 <div class="row">
+  <form>
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name">
+    </div>
+    <div class="mb-3">
+      <label for="studyLevel" class="form-label">Study Level</label>
+      <input type="text" class="form-control" id="studyLevel">
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">description</label>
+      <textarea class="form-control" id="description" rows="3"></textarea>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="saveStudent()">Save Student</button>
+  </form>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+<div class="row">
   <div class="col">
     <app-dress-page></app-dress-page>
   </div>
