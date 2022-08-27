@@ -1,5 +1,4 @@
 <p>ferdous-page works!</p>
-<br>
 
 <button (click)="add('Movie')">Add a Movie</button>
 <br>
@@ -10,7 +9,7 @@
 <h2>All Movie list:</h2>
 <li *ngFor="let movie of (movies$ | async)">
   {{ movie.id }} {{ movie.name }}
-  <button  type="button" (click)="update(movie)">update</button>
+  <button  type="button" class="btn btn-primary" (click)="update(movie)">update</button>
   <button type="button" (click)="remove(movie)">Remove</button>
   <button type="button" (click)="favourite(movie)">Favourite</button>
 </li>
