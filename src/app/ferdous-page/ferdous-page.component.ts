@@ -12,6 +12,7 @@ import {Observable} from "rxjs";
 export class FerdousPageComponent implements OnInit {
 
   movies$ : Observable<Movie[]> = this.moviesStore.movies$;
+  favouriteMovies$ : Observable<Movie[]> = this.moviesStore.userPreferredMovies$;
 
   defaultId = 1;
 
@@ -25,5 +26,24 @@ export class FerdousPageComponent implements OnInit {
   add(movieName: string) {
     this.moviesStore.addMovie({ name: movieName + this.defaultId, id: this.defaultId });
     this.defaultId = this.defaultId + 1;
+  }
+
+  update(movie: Movie) {
+    this.moviesStore.updateMovie({ ...movie, name: "Updated " + movie.name });
+  }
+
+  remove(movie: Movie) {
+    this.moviesStore.removeMovie({ ...movie});
+  }
+
+  resetMovies() {
+    this.moviesStore.resetMovies();
+    this.defaultId = 1;
+  }
+
+
+  favourite(movie: Movie) {
+    this.moviesStore.addFavouriteMovie({ ...movie});
+
   }
 }

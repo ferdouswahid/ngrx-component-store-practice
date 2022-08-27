@@ -4,7 +4,6 @@ import {Store} from "@ngrx/store";
 import {linkToGlobalState} from "../ComponentStateReducer";
 
 
-
 export interface Movie {
   id: number;
   name: string;
@@ -13,7 +12,7 @@ export interface Movie {
 
 export interface MoviesState {
   movies: Movie[];
-  userPreferredMoviesIds: string[];
+  userPreferredMoviesIds: number[];
 }
 
 export const initialState: MoviesState = {
@@ -29,22 +28,70 @@ export class MoviesStore extends ComponentStore<MoviesState> {
     linkToGlobalState(this.state$, 'MoviesState', this.globalStore);
   }
 
-
   readonly movies$ = this.select(state => state.movies);
 
+  readonly addMovie = this.updater((state: MoviesState, movie: Movie) => {
+      return {
+        ...state,
+        movies: [...state.movies, movie]
+      }
+    }
+  );
+
+  readonly updateMovie = this.updater((state: MoviesState, movie: Movie) => {
+      const newMovieList: Movie[] = Object.assign([], state.movies);
+      const index = newMovieList.findIndex(val => val.id == movie.id);
+      newMovieList[index] = movie;
+
+      return {
+        ...state,
+        movies: newMovieList,
+      };
+    }
+  );
+
+  readonly removeMovie = this.updater((state: MoviesState, movie: Movie) => {
+      const newMovieList: Movie[] = Object.assign([], state.movies);
+      const removeMovieList = newMovieList.filter(val => val.id !== movie.id);
+      return {
+        ...state,
+        movies: removeMovieList,
+      };
+    }
+  );
+
+  readonly resetMovies = this.updater((state: MoviesState) => {
+      return {
+        ...state, ...initialState
+      }
+    }
+  );
+
+
+  // favourite
   readonly userPreferredMovieIds$ = this.select(state => state.userPreferredMoviesIds);
 
-
- /* readonly userPreferredMovies$ = this.select(
+  readonly userPreferredMovies$ = this.select(
     this.movies$,
     this.userPreferredMovieIds$,
     (movies, ids) => movies.filter(movie => ids.includes(movie.id)),
-    {debounce: true}, // 👈 setting this selector to debounce
-  );*/
+    {debounce: true}, // setting this selector to debounce
+  );
 
-  readonly addMovie = this.updater((state:MoviesState, movie: Movie) => ({
-      ...state, movies: [...state.movies, movie],
-    })
+  readonly addFavouriteMovie = this.updater((state: MoviesState, movie: Movie) => {
+    const newList: number[] = Object.assign([], state.userPreferredMoviesIds);
+    if(newList.includes(movie.id)){
+      return {
+        ...state
+      }
+    }else{
+      return {
+        ...state,
+        userPreferredMoviesIds: [...state.userPreferredMoviesIds, movie.id]
+      }
+    }
+
+    }
   );
 
 }

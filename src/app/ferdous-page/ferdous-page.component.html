@@ -1,13 +1,24 @@
 <p>ferdous-page works!</p>
+<br>
 
-
+<button (click)="add('Movie')">Add a Movie</button>
+<br>
+<button (click)="resetMovies()">reset Movies</button>
+<br>
+<br>
 
 <h2>All Movie list:</h2>
 <li *ngFor="let movie of (movies$ | async)">
   {{ movie.id }} {{ movie.name }}
+  <button  type="button" (click)="update(movie)">update</button>
+  <button type="button" (click)="remove(movie)">Remove</button>
+  <button type="button" (click)="favourite(movie)">Favourite</button>
 </li>
 
 <br>
 <br>
-<br>
-<button (click)="add('Movie')">Add a Movie</button>
+
+<h2>Favourite Movie list:</h2>
+<li *ngFor="let fm of (favouriteMovies$ | async)">
+  {{ fm.id }} {{ fm.name }}
+</li>
