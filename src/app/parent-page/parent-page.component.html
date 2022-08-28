@@ -1,26 +1,42 @@
 <p>parent-page works!</p>
 
+<div style="border: 4px; border-style: solid;">
+  <div class="row">
+    <form [formGroup]="studentFg">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" formControlName="name" id="name">
+      </div>
+      <div class="mb-3">
+        <label for="studyLevel" class="form-label">Study Level</label>
+        <input type="text" class="form-control" formControlName="studyLevel" id="studyLevel">
+      </div>
 
-<div class="row">
-  <form>
-    <div class="mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input type="text" class="form-control" id="name">
-    </div>
-    <div class="mb-3">
-      <label for="studyLevel" class="form-label">Study Level</label>
-      <input type="text" class="form-control" id="studyLevel">
-    </div>
-    <div class="mb-3">
-      <label for="description" class="form-label">description</label>
-      <textarea class="form-control" id="description" rows="3"></textarea>
-    </div>
+      <button type="button" class="btn btn-primary" (click)="saveStudent()">Save Student</button>
+    </form>
+  </div>
+  <br>
+  <br>
 
-    <button type="button" class="btn btn-primary" (click)="saveStudent()">Save Student</button>
-  </form>
+  <button (click)="resetStudentState()">reset Student state</button>
+  <div class="row">
+    <li>
+      {{ studentDto.id }} {{ studentDto.name }} {{ studentDto.studyLevel }}
+    </li>
+
+    <h6>All Book list:</h6>
+    <li *ngFor="let book of studentDto.bookList; let i = index">
+      {{ book.id }} {{ book.name }} {{ book.writer }} {{ book.description }}
+    </li>
+
+    <h6>Favourite Dress list:</h6>
+    <li *ngFor="let dress of studentDto.dressList">
+      {{ dress.id }} {{ dress.name }} {{ dress.color }} {{ dress.description }}
+    </li>
+
+  </div>
 </div>
-<br>
-<br>
+
 <br>
 <br>
 

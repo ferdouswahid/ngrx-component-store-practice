@@ -6,6 +6,8 @@ import { ParentPageComponent } from './parent-page.component';
 import {DressPageModule} from "../dress-page/dress-page.module";
 import {BookPageModule} from "../book-page/book-page.module";
 import {StudentStore} from "./student.store";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
 
 
 @NgModule({
@@ -14,6 +16,10 @@ import {StudentStore} from "./student.store";
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RxReactiveFormsModule,
+
     ParentPageRoutingModule,
     DressPageModule,
     BookPageModule

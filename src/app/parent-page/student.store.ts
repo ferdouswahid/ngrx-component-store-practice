@@ -6,11 +6,11 @@ import {StudentDto} from "./StudentDto";
 
 
 export class StudentState {
-  student: StudentDto | null=null;
+  studentDto: StudentDto;
 }
 
 export const initialState: StudentState = {
-  student: new StudentDto(),
+  studentDto: new StudentDto(),
 };
 
 @Injectable()
@@ -21,6 +21,21 @@ export class StudentStore extends ComponentStore<StudentState> {
     linkToGlobalState(this.state$, 'StudentState', this.globalStore);
   }
 
+  readonly studentDto$ = this.select(state => state.studentDto);
 
+  readonly saveStudent = this.updater((state: StudentState, studentDto: StudentDto) => {
+      return {
+        ...state,
+        studentDto: {...studentDto}
+      }
+    }
+  );
+
+  readonly resetStudentState = this.updater((state: StudentState) => {
+      return {
+        ...state, ...initialState
+      }
+    }
+  );
 
 }
