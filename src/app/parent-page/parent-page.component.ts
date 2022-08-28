@@ -6,6 +6,9 @@ import {StudentDto} from "./StudentDto";
 import {FormService} from "../common/form-service";
 import {BookDto} from "../book-page/BookDto";
 import {async, Observable} from "rxjs";
+import {BooksStore} from "../book-page/books.store";
+import {DressStore} from "../dress-page/dress.store";
+import {DressDto} from "../dress-page/DressDto";
 
 
 @Component({
@@ -15,7 +18,9 @@ import {async, Observable} from "rxjs";
 })
 export class ParentPageComponent implements OnInit {
 
-  studentDto$ : Observable<StudentDto>;
+  bookList$ : Observable<BookDto[]> = this.booksStore.bookDtoList$;
+  dressList$ : Observable<DressDto[]> = this.dressStore.dressDtoList$;
+  studentDto$: Observable<StudentDto>;
   defaultId = 1;
 
   studentFg: FormGroup;
@@ -23,7 +28,9 @@ export class ParentPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private formService: FormService,
-              private readonly studentStore: StudentStore) {
+              private readonly studentStore: StudentStore,
+              private readonly booksStore: BooksStore,
+              private readonly dressStore: DressStore) {
   }
 
   ngOnInit(): void {
@@ -35,8 +42,8 @@ export class ParentPageComponent implements OnInit {
     this.studentFg = this.formService.makeBlankForm(studentDto);
   }
 
-  getStudentDto(){
-    this.studentDto$ =  this.studentStore.studentDto$
+  getStudentDto() {
+    this.studentDto$ = this.studentStore.studentDto$
     this.studentStore.studentDto$.subscribe(
       (res: StudentDto) => {
         this.studentDto = res
@@ -44,14 +51,21 @@ export class ParentPageComponent implements OnInit {
     );
   }
 
-
-
   saveStudent() {
     const studentDto = new StudentDto(this.studentFg.value);
     if (studentDto.id == null) {
       studentDto.id = this.defaultId;
     }
 
+    let bookList: BookDto[] = []
+    this.booksStore.bookDtoList$.subscribe(
+      (res: BookDto[]) => {
+        console.log('boos list form bookstore: ', res);
+        bookList = res;
+      }
+    );
+
+    studentDto.bookList = bookList;
     console.log(studentDto);
 
     this.studentStore.saveStudent({...studentDto});

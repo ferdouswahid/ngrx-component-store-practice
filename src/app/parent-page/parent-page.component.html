@@ -24,15 +24,19 @@
       {{ studentDto.id }} {{ studentDto.name }} {{ studentDto.studyLevel }}
     </li>
 
+
     <h6>All Book list:</h6>
-    <li *ngFor="let book of studentDto.bookList; let i = index">
+
+    <pre>{{bookList$ | async | json}}</pre>
+<!--    <li *ngFor="let book of studentDto.bookList; let i = index">
       {{ book.id }} {{ book.name }} {{ book.writer }} {{ book.description }}
-    </li>
+    </li>-->
 
     <h6>Favourite Dress list:</h6>
-    <li *ngFor="let dress of studentDto.dressList">
+    <pre>{{dressList$ | async | json}}</pre>
+<!--    <li *ngFor="let dress of studentDto.dressList">
       {{ dress.id }} {{ dress.name }} {{ dress.color }} {{ dress.description }}
-    </li>
+    </li>-->
 
   </div>
 </div>

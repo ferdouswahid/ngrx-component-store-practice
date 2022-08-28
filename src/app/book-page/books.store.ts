@@ -3,6 +3,7 @@ import {ComponentStore} from "@ngrx/component-store";
 import {Store} from "@ngrx/store";
 import {linkToGlobalState} from "../ComponentStateReducer";
 import {BookDto} from "./BookDto";
+import {Observable} from "rxjs";
 
 export class BooksState {
   bookDtoList: BookDto[];
@@ -20,9 +21,10 @@ export class BooksStore extends ComponentStore<BooksState> {
   constructor(private globalStore: Store) {
     super(initialState);
     linkToGlobalState(this.state$, 'BooksState', this.globalStore);
+    console.log('book store init complete');
   }
 
-  readonly bookDtoList$ = this.select(state => state.bookDtoList);
+  readonly bookDtoList$: Observable<BookDto[]> = this.select(state => state.bookDtoList);
 
   readonly addBook = this.updater((state: BooksState, book: BookDto) => {
       return {
