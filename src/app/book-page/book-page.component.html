@@ -1,21 +1,22 @@
-<form>
+<form [formGroup]="bookFg">
   <p>Book form</p>
   <div class="mb-3">
     <label for="name" class="form-label">Name</label>
-    <input type="text" class="form-control" id="name">
+    <input type="text" class="form-control" formControlName="name" id="name">
   </div>
   <div class="mb-3">
     <label for="writer" class="form-label">Writer</label>
-    <input type="text" class="form-control" id="writer">
+    <input type="text" class="form-control" formControlName="writer" id="writer">
   </div>
   <div class="mb-3">
     <label for="description" class="form-label">description</label>
-    <textarea class="form-control" id="description" rows="3"></textarea>
+    <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
   </div>
 
-  <button type="button" class="btn btn-primary" (click)="add('Book')">Add Book</button>
+  <button type="button" class="btn btn-primary" (click)="saveBook()">Save Book</button>
 </form>
 
+<!--<pre>{{bookFg.value | json}}</pre>-->
 
 <br>
 <br>
@@ -23,7 +24,7 @@
 <button (click)="resetBookState()">reset Dress state</button>
 <h2>All Book list:</h2>
 <li *ngFor="let book of (bookList$ | async)">
-  {{ book.id }} {{ book.name }}
+  {{ book.id }} {{ book.name }} {{ book.writer }} {{ book.description }}
   <button type="button" (click)="update(book)">update</button>
   <button type="button" (click)="remove(book)">Remove</button>
   <button type="button" (click)="favourite(book)">Favourite</button>
@@ -33,7 +34,7 @@
 <br>
 
 <h2>Favourite Book list:</h2>
-<li *ngFor="let fm of (favouriteBookList$ | async)">
-  {{ fm.id }} {{ fm.name }}
+<li *ngFor="let book of (favouriteBookList$ | async)">
+  {{ book.id }} {{ book.name }} {{ book.writer }} {{ book.description }}
 </li>
 

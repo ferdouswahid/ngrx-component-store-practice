@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RxReactiveFormsModule} from '@rxweb/reactive-form-validators';
+
 
 import { BookPageRoutingModule } from './book-page-routing.module';
 import { BookPageComponent } from './book-page.component';
@@ -12,6 +15,9 @@ import {BooksStore} from "./books.store";
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RxReactiveFormsModule,
     BookPageRoutingModule
   ],
   exports: [

@@ -5,8 +5,8 @@ import {linkToGlobalState} from "../ComponentStateReducer";
 import {StudentDto} from "./StudentDto";
 
 
-export interface StudentState {
-  student: StudentDto;
+export class StudentState {
+  student: StudentDto | null=null;
 }
 
 export const initialState: StudentState = {

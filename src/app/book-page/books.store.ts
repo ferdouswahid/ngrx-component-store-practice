@@ -5,8 +5,8 @@ import {linkToGlobalState} from "../ComponentStateReducer";
 import {BookDto} from "./BookDto";
 
 export class BooksState {
-  bookDtoList: BookDto[]= [];
-  userPreferredBookIdList: number[]= [];
+  bookDtoList: BookDto[];
+  userPreferredBookIdList: number[];
 }
 
 export const initialState: BooksState = {

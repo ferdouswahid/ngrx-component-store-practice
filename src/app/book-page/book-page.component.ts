@@ -3,6 +3,8 @@ import {Observable} from "rxjs";
 import {BooksStore} from "./books.store";
 import {ActivatedRoute} from "@angular/router";
 import {BookDto} from "./BookDto";
+import { AbstractControl, FormGroup } from "@angular/forms";
+import {FormService} from "../common/form-service";
 
 @Component({
   selector: 'app-book-page',
@@ -15,16 +17,31 @@ export class BookPageComponent implements OnInit {
   favouriteBookList$ : Observable<BookDto[]> = this.booksStore.userPreferredBookList$;
   defaultId = 1;
 
+  bookFg: FormGroup;
+  bookDto: BookDto;
+
   constructor(private route: ActivatedRoute,
+              private formService: FormService,
               private readonly booksStore: BooksStore) {}
 
   ngOnInit(): void {
+    this.makeBookForm(new BookDto());
+  }
+
+  makeBookForm(bookDto: BookDto): void {
+    this.bookFg = this.formService.makeBlankForm(bookDto);
   }
 
 
-  add(bookName: string) {
-    this.booksStore.addBook({ name: bookName + this.defaultId, id: this.defaultId });
+  saveBook() {
+    const bookDto = new BookDto(this.bookFg.value);
+    if (bookDto.id == null) {
+      bookDto.id = this.defaultId;
+    }
+
+    this.booksStore.addBook({...bookDto});
     this.defaultId = this.defaultId + 1;
+    this.makeBookForm(new BookDto());
   }
 
   update(book: BookDto) {
