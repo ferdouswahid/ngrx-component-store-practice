@@ -3,12 +3,11 @@ import {ComponentStore} from "@ngrx/component-store";
 import {Store} from "@ngrx/store";
 import {linkToGlobalState} from "../ComponentStateReducer";
 import {DressDto} from "./DressDto";
-import {BooksState} from "../book-page/books.store";
 
 
 export class DresssState {
-  dressDtoList: DressDto[] = [];
-  userPreferredDressIdList: number[] = [];
+  dressDtoList: DressDto[];
+  userPreferredDressIdList: number[];
 
   public constructor(o?: Partial<DresssState>) {
     Object.assign(this, o);
